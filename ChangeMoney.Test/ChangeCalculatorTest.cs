@@ -6,100 +6,51 @@ namespace ChangeMoney.Test
 {
     public class ChangeCalculatorTest
     {
-        [Fact]
-        public void ChangeCalculator_Success_1()
+        private ChangeCalculator calculator;
+        public ChangeCalculatorTest()
         {
-            var cal = new ChangeCalculator();
-            var result = cal.Change(50, 100);
-
-            Assert.Equal(50, result.Change);
-            Assert.Equal(1, result.FiftyAmount);
+            calculator = new ChangeCalculator();
         }
 
-        [Fact]
-        public void ChangeCalculator_Success_2()
+        [Theory]
+        [InlineData(50, 100, 50, 0, 0, 0, 1)]
+        [InlineData(50, 200, 150, 0, 0, 1, 1)]
+        [InlineData(650, 1000, 350, 0, 0, 3, 1)]
+        [InlineData(680, 1000, 320, 0, 0, 3, 0, 1)]
+        [InlineData(665, 1000, 335, 0, 0, 3, 0, 1, 3)]
+        [InlineData(661, 1000, 339, 0, 0, 3, 0, 1, 3, 4)]
+        [InlineData(1202, 3000, 1798, 1, 1, 2, 1, 2, 1, 3)]
+        public void ChangeCalculator_Successed(
+            int amount,
+            int pay,
+            int expectedChange,
+            int thousandAmount = 0,
+            int fiveHundredAmount = 0,
+            int hundredAmount = 0,
+            int fiftyAmount = 0,
+            int twentyAmount = 0,
+            int fiveAmount = 0,
+            int oneAmount = 0)
         {
-            var cal = new ChangeCalculator();
-            var result = cal.Change(50, 200);
+            var result = calculator.Change(amount, pay);
 
-            Assert.Equal(150, result.Change);
-            Assert.Equal(1, result.OneHundredAmount);
-            Assert.Equal(1, result.FiftyAmount);
+            Assert.Equal(expectedChange, result.Change);
+            Assert.Equal(thousandAmount, result.ThousandAmount);
+            Assert.Equal(fiveHundredAmount, result.FiveHundredAmount);
+            Assert.Equal(hundredAmount, result.OneHundredAmount);
+            Assert.Equal(fiftyAmount, result.FiftyAmount);
+            Assert.Equal(twentyAmount, result.TwentyAmount);
+            Assert.Equal(fiveAmount, result.FiveAmount);
+            Assert.Equal(oneAmount, result.OneAmount);
         }
 
-        [Fact]
-        public void ChangeCalculator_Success_3()
+        [Theory]
+        [InlineData(200, 100)]
+        [InlineData(400, 399)]
+        [InlineData(70, 50)]
+        public void ChangeCalculator_Failed(int amount, int pay)
         {
-            var cal = new ChangeCalculator();
-            var result = cal.Change(650, 1000);
-
-            Assert.Equal(350, result.Change);
-            Assert.Equal(3, result.OneHundredAmount);
-            Assert.Equal(1, result.FiftyAmount);
-        }
-
-
-        [Fact]
-        public void ChangeCalculator_Success_4()
-        {
-            var cal = new ChangeCalculator();
-            var result = cal.Change(680, 1000);
-
-            Assert.Equal(320, result.Change);
-            Assert.Equal(3, result.OneHundredAmount);
-            Assert.Equal(0, result.FiftyAmount);
-            Assert.Equal(1, result.TwentyAmount);
-        }
-
-        [Fact]
-        public void ChangeCalculator_Success_5()
-        {
-            var cal = new ChangeCalculator();
-            var result = cal.Change(665, 1000);
-
-            Assert.Equal(335, result.Change);
-            Assert.Equal(3, result.OneHundredAmount);
-            Assert.Equal(0, result.FiftyAmount);
-            Assert.Equal(1, result.TwentyAmount);
-            Assert.Equal(3, result.FiveAmount);
-        }
-
-        [Fact]
-        public void ChangeCalculator_Success_6()
-        {
-            var cal = new ChangeCalculator();
-            var result = cal.Change(661, 1000);
-
-            Assert.Equal(339, result.Change);
-            Assert.Equal(3, result.OneHundredAmount);
-            Assert.Equal(0, result.FiftyAmount);
-            Assert.Equal(1, result.TwentyAmount);
-            Assert.Equal(3, result.FiveAmount);
-            Assert.Equal(4, result.OneAmount);
-        }
-
-        [Fact]
-        public void ChangeCalculator_Success_7()
-        {
-            var cal = new ChangeCalculator();
-            var result = cal.Change(1202, 3000);
-
-            Assert.Equal(1798, result.Change);
-            Assert.Equal(1, result.ThousandAmount);
-            Assert.Equal(1, result.FiveHundredAmount);
-            Assert.Equal(2, result.OneHundredAmount);
-            Assert.Equal(1, result.FiftyAmount);
-            Assert.Equal(2, result.TwentyAmount);
-            Assert.Equal(1, result.FiveAmount);
-            Assert.Equal(3, result.OneAmount);
-        }
-
-        [Fact]
-        public void ChangeCalculator_Failed()
-        {
-            var cal = new ChangeCalculator();
-            var result = cal.Change(200, 100);
-
+            var result = calculator.Change(amount, pay);
             Assert.Null(result);
         }
     }

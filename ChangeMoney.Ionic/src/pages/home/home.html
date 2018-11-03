@@ -1,0 +1,76 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>
+      Change Calculator
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-card>
+    <ion-card-header>
+      <ion-list>
+        <ion-item>
+          <ion-label col-4>Amount :</ion-label>
+          <ion-input style="background:gainsboro" [(ngModel)]="amount"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label col-4>Pay :</ion-label>
+          <ion-input style="background:gainsboro" [(ngModel)]="pay"></ion-input>
+        </ion-item>
+        <ion-item>
+          <button ion-button secondary block large (click)="calculate()">Calculate</button>
+        </ion-item>
+      </ion-list>
+    </ion-card-header>
+    <ion-card-content>
+
+      <ion-list *ngIf="data != null">
+        <ion-item>
+          <ion-label col-6>
+            Change : {{ data.change }}
+          </ion-label>
+        </ion-item>
+        <ion-item *ngIf="data.thousandAmount > 0">
+          <ion-label col-6>
+            1000 x {{ data.thousandAmount }}
+          </ion-label>
+        </ion-item>
+        <ion-item *ngIf="data.fiveHundredAmount > 0">
+          <ion-label col-6>
+            500 x {{ data.fiveHundredAmount }}
+          </ion-label>
+        </ion-item>
+        <ion-item *ngIf="data.oneHundredAmount > 0">
+          <ion-label col-6>
+            100 x {{ data.oneHundredAmount }}
+          </ion-label>
+        </ion-item>
+        <ion-item *ngIf="data.fiftyAmount > 0">
+          <ion-label col-6>
+            50 x {{ data.fiftyAmount }}
+          </ion-label>
+        </ion-item>
+        <ion-item *ngIf="data.twentyAmount > 0">
+          <ion-label col-6>
+            20 x {{ data.twentyAmount }}
+          </ion-label>
+        </ion-item>
+        <ion-item *ngIf="data.fiveAmount > 0">
+          <ion-label col-6>
+            5 x {{ data.fiveAmount }}
+          </ion-label>
+        </ion-item>
+        <ion-item *ngIf="data.oneAmount > 0">
+          <ion-label col-6>
+            1 x {{ data.oneAmount }}
+          </ion-label>
+        </ion-item>
+
+      </ion-list>
+
+    </ion-card-content>
+
+  </ion-card>
+
+</ion-content>
